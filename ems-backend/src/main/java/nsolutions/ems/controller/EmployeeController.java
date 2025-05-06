@@ -8,6 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+//This controller layer depends on the service layer
+
 @AllArgsConstructor
 @RestController //Means class can now handle HTTP requests
 @RequestMapping("/api/employees") //Defines base URL for all api's we are able to build within the controller
@@ -38,5 +42,32 @@ public class EmployeeController {
 
     }
 
+    //Get All Employees
+    @GetMapping
+    public ResponseEntity<List<EmployeeDto>> getAllEmployees()
+    {
+       List<EmployeeDto> employees = employeeService.getAllEmployees();
+
+        return ResponseEntity.ok(employees);
+    }
+
+    //Update employee
+    @PutMapping("{id}")
+    public ResponseEntity<EmployeeDto> updateEmployee (@PathVariable("id") Long employeeId,
+                                                       @RequestBody EmployeeDto updatedEmployee)
+    {
+        EmployeeDto employeeDto = employeeService.updateEmployee(employeeId,updatedEmployee);
+
+        return ResponseEntity.ok(employeeDto);
+
+    }
+
+    //Delete employee
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteEmployee(@PathVariable("id") Long employeeId)
+    {
+        employeeService.deleteEmployee(employeeId);
+        return ResponseEntity.ok("Employee deleted successfully");
+    }
 
 }
