@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 //This controller layer depends on the service layer
-
+// to allow HTTP requests from different origins, which browsers would otherwise block due to the Same-Origin Policy.
+//Without @CrossOrigin, the browser will block frontend requests to Spring Boot if they come from another domain (like React running on localhost:3000 and Spring Boot on localhost:8080).
+@CrossOrigin("*")
 @AllArgsConstructor
 @RestController //Means class can now handle HTTP requests
 @RequestMapping("/api/employees") //Defines base URL for all api's we are able to build within the controller
